@@ -1,4 +1,4 @@
-# hive_libft
+# hive_../libft
 Libft Project for Hive, Helsinki
 
 Libft is custom library with implementations of many functions common to standard C libraries. This code was written in 
