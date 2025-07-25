@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/07/22 11:27:31 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/07/25 14:12:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdarg.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 1024
 # endif
 
 # ifndef FD_MAX
@@ -91,6 +91,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+int		ft_printf(const char *format, ...);
 
 // STRINGS
 size_t	ft_strlen(const char *s);
