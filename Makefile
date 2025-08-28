@@ -10,32 +10,49 @@
 #                                                                              #
 # **************************************************************************** #
 
-ASCII = ascii/ft_isalpha.c ascii/ft_isdigit.c ascii/ft_isalnum.c \
-		ascii/ft_isascii.c ascii/ft_isprint.c ascii/ft_toupper.c \
-		ascii/ft_tolower.c ascii/ft_isspace.c
+# ASCII
+ASCII_DIR = ascii
+ASCII_FILES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
+			  ft_isprint.c ft_toupper.c ft_tolower.c ft_isspace.c ft_isnum.c
+ASCII = $(addprefix $(ASCII_DIR)/, $(ASCII_FILES))
 
-GNL = gnl/get_next_line.c
+# GNL
+GNL_DIR = gnl
+GNL_FILES = get_next_line.c
+GNL = $(addprefix $(GNL_DIR)/, $(GNL_FILES))
 
-LISTS = lists/ft_lstnew.c lists/ft_lstadd_front.c lists/ft_lstsize.c \
-		lists/ft_lstlast.c lists/ft_lstadd_back.c lists/ft_lstdelone.c \
-		lists/ft_lstclear.c lists/ft_lstiter.c lists/ft_lstmap.c
+# LISTS
+LISTS_DIR = lists
+LISTS_FILES = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
+			  ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
+			  ft_lstmap.c
+LISTS = $(addprefix $(LISTS_DIR)/, $(LISTS_FILES))
 
-MEMORY = memory/ft_memset.c memory/ft_bzero.c memory/ft_memcpy.c \
-		 memory/ft_memmove.c memory/ft_memchr.c memory/ft_memcmp.c \
-		 memory/ft_calloc.c 
+# MEMORY
+MEMORY_DIR = memory
+MEMORY_FILES = ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_memchr.c \
+			   ft_memcmp.c ft_calloc.c
+MEMORY = $(addprefix $(MEMORY_DIR)/, $(MEMORY_FILES))
 
-NUMBERS = numbers/ft_atoi.c numbers/ft_itoa.c numbers/ft_digitcount.c 
+# NUMBERS
+NUMBERS_DIR = numbers
+NUMBERS_FILES = ft_atoi.c ft_itoa.c ft_digitcount.c
+NUMBERS = $(addprefix $(NUMBERS_DIR)/, $(NUMBERS_FILES))
 
-PRINTING = printing/ft_putchar.c printing/ft_putstr.c printing/ft_putnbr.c \
-		   printing/ft_putuint.c printing/ft_puthex.c printing/ft_putptr.c \
-		   printing/ft_putendl_fd.c printing/ft_putnbr_fd.c \
-		   printing/ft_putnbr_fd.c printing/ft_printf.c
+# PRINTING
+PRINTING_DIR = printing
+PRINTING_FILES = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putuint.c \
+				 ft_puthex.c ft_putptr.c ft_putendl_fd.c ft_putnbr_fd.c \
+				 ft_putnbr_fd.c ft_printf.c
+PRINTING = $(addprefix $(PRINTING_DIR)/, $(PRINTING_FILES))
 
-STRINGS = strings/ft_strlen.c strings/ft_strlcpy.c strings/ft_strlcat.c \
-		  strings/ft_strchr.c strings/ft_strrchr.c strings/ft_strncmp.c \
-		  strings/ft_strnstr.c strings/ft_strdup.c strings/ft_substr.c \
-		  strings/ft_strjoin.c strings/ft_strtrim.c strings/ft_split.c \
-		  strings/ft_strmapi.c strings/ft_striteri.c
+# STRINGS
+STRINGS_DIR = strings
+STRINGS_FILES = ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
+				ft_strrchr.c ft_strncmp.c ft_strnstr.c ft_strdup.c \
+				ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_strmapi.c \
+				ft_striteri.c ft_strcmp.c
+STRINGS = $(addprefix $(STRINGS_DIR)/, $(STRINGS_FILES))
 
 HEADER = libft.h
 
@@ -51,21 +68,30 @@ RMFILE = rm -f
 RMDIR = rm -r
 NAME = libft.a
 
-all: $(NAME)
+all: start $(NAME) finish
+
+start:
+	@echo "==== BUILDING LIB_FT ======="
+
+finish:
+	@echo "==== BUILD FINISHED! ======="
 
 $(NAME): $(OBJECTS)
-	$(AR) $(NAME) $(OBJECTS)
+	@$(AR) $(NAME) $(OBJECTS)
+	@echo "Library compiled."
 
 $(O_DIR)/%.o: %.c $(HEADER)
-	$(MKDIR) $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(MKDIR) $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RMFILE) $(OBJECTS)
-	$(RMDIR) $(O_DIR)
+	@echo "Removing libft object files."
+	@$(RMFILE) $(OBJECTS)
+	@$(RMDIR) $(O_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	@echo "Removing libft static library files."
+	@$(RM) $(NAME)
 
 re: fclean all
 
