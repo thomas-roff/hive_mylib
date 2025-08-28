@@ -13,7 +13,7 @@
 #include "libft.h"
 #include <fcntl.h>
 
-int	main()
+int	main(void)
 {
 	int		fd;
 	char	*line;
