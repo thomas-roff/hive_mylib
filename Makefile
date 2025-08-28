@@ -43,7 +43,7 @@ NUMBERS = $(addprefix $(NUMBERS_DIR)/, $(NUMBERS_FILES))
 PRINTING_DIR = printing
 PRINTING_FILES = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putuint.c \
 				 ft_puthex.c ft_putptr.c ft_putendl_fd.c ft_putnbr_fd.c \
-				 ft_putnbr_fd.c ft_printf.c
+				 ft_printf.c ft_putchar_fd.c ft_putstr_fd.c
 PRINTING = $(addprefix $(PRINTING_DIR)/, $(PRINTING_FILES))
 
 # STRINGS
@@ -65,7 +65,7 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 MKDIR = mkdir -p
 RMFILE = rm -f
-RMDIR = rm -r
+RMDIR = rm -rf
 NAME = libft.a
 
 all: start $(NAME) finish
@@ -91,7 +91,7 @@ clean:
 
 fclean: clean
 	@echo "Removing libft static library files."
-	@$(RM) $(NAME)
+	@$(RMFILE) $(NAME)
 
 re: fclean all
 

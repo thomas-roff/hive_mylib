@@ -39,6 +39,8 @@ typedef struct s_list
 int		ft_isalpha(int c);
 // Checks if input int 'c' is numeric character in ascii
 int		ft_isdigit(int c);
+// Checks if input int 'c' is numeric character or sign in ascii
+int		ft_isnum(int c);
 // Checks if input int 'c' is alphanumeric character in ascii
 int		ft_isalnum(int c);
 // Checks if input int 'c' is valid character in ascii
