@@ -6,14 +6,15 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/07/25 14:29:18 by thblack-         ###   ########.fr        #
+#    Updated: 2025/09/18 14:12:49 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ASCII
 ASCII_DIR = ascii
 ASCII_FILES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
-			  ft_isprint.c ft_toupper.c ft_tolower.c ft_isspace.c ft_isnum.c
+			  ft_isprint.c ft_toupper.c ft_tolower.c ft_isspace.c ft_isnum.c \
+			  ft_isstr.c ft_isarr.c
 ASCII = $(addprefix $(ASCII_DIR)/, $(ASCII_FILES))
 
 # GNL
@@ -57,8 +58,8 @@ STRINGS = $(addprefix $(STRINGS_DIR)/, $(STRINGS_FILES))
 HEADER = libft.h
 
 SOURCES = $(ASCII) $(GNL) $(LISTS) $(MEMORY) $(NUMBERS) $(PRINTING) $(STRINGS)
-O_DIR = .objects
-OBJECTS = $(SOURCES:%.c=$(O_DIR)/%.o)
+OBJECTS_DIR = .obj
+OBJECTS = $(SOURCES:%.c=$(OBJECTS_DIR)/%.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -74,23 +75,22 @@ start:
 	@echo "==== BUILDING LIB_FT ======="
 
 finish:
-	@echo "==== BUILD FINISHED! ======="
 
 $(NAME): $(OBJECTS)
 	@$(AR) $(NAME) $(OBJECTS)
-	@echo "Library compiled."
+	@echo "Library compiled"
 
-$(O_DIR)/%.o: %.c $(HEADER)
+$(OBJECTS_DIR)/%.o: %.c $(HEADER)
 	@$(MKDIR) $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@echo "Removing libft object files."
+	@echo "Removing libft object files"
 	@$(RMFILE) $(OBJECTS)
-	@$(RMDIR) $(O_DIR)
+	@$(RMDIR) $(OBJECTS_DIR)
 
 fclean: clean
-	@echo "Removing libft static library files."
+	@echo "Removing libft static library files"
 	@$(RMFILE) $(NAME)
 
 re: fclean all

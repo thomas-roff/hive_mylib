@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/09/09 17:27:05 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/09/18 12:57:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,33 @@
 # define LIBFT_H
 # include <stddef.h>
 # include <stdint.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdarg.h>
 
+// BUF_SIZE (USED IN GNL AND MINITALK)
 # ifndef BUF_SIZE
 #  define BUF_SIZE 1024
 # endif
 
+// FD_MAX (USED IN MINITALK)
 # ifndef FD_MAX
 #  define FD_MAX 1024
 # endif
+
+// CODES FOR ERROR TRACKING
+// SUCCESSFUL EXECUTION
+# define OK 1
+// UNSUCCEFUL EXECUTION
+# define KO 0
+
+// CODES FOR CHECKING FUNCTIONS
+// RETURNS TRUE
+# define TRUE 1
+// RETURNS FALSE
+# define FALSE 0
 
 typedef struct s_list
 {
@@ -53,8 +68,15 @@ int		ft_isspace(int c);
 int		ft_toupper(int c);
 // If input int 'c' is uppercase ascii then it converts to lowercase
 int		ft_tolower(int c);
+// Utility for applying ASCII checks to strings
+int		ft_isstr(char *str, int (f)(int));
+// Utility for applying ASCII checks to arrays of strings
+int		ft_isarr(char **arr, int (f)(int));
 
 // GNL
+
+// Reads a file pointed to by int 'fd' and returns the first line or EOF as a
+// string
 char	*get_next_line(int fd);
 
 // LISTS
