@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/09/18 12:57:27 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:41:21 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdarg.h>
+# include <stdbool.h>
+# include <float.h>
 
 // BUF_SIZE (USED IN GNL AND MINITALK)
 # ifndef BUF_SIZE
@@ -48,6 +50,12 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct s_float
+{
+	float	whole;
+	float	dec;
+}	t_float;
+
 // ASCII
 
 // Checks if input int 'c' is alphabetic character in ascii
@@ -56,6 +64,8 @@ int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 // Checks if input int 'c' is numeric character or sign in ascii
 int		ft_isnum(int c);
+// Checks if input int 'c' is numeric character, period or sign in ascii
+int		ft_isfloat(int c);
 // Checks if input int 'c' is alphanumeric character in ascii
 int		ft_isalnum(int c);
 // Checks if input int 'c' is valid character in ascii
@@ -64,6 +74,14 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 // Checks if input int 'c' is whitespace character in ascii
 int		ft_isspace(int c);
+// Checks if input int 'c' is '+' or '-'
+int		ft_issign(int c);
+// Checks if input char '*nptr' is a number with leading zeros
+int		ft_isleadingzero(const char *nptr);
+// Checks if input char '*nptr' is a valid float
+int		ft_strisfloat(const char *nptr);
+// Checks if input char '*nptr' is a valid integer
+int		ft_strisnum(const char *nptr);
 // If input int 'c' is lowercase ascii then it converts to uppercase
 int		ft_toupper(int c);
 // If input int 'c' is uppercase ascii then it converts to lowercase
@@ -100,9 +118,16 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 // NUMBERS
-int		ft_atoi(const char *nptr);
+bool	ft_atoi(const char *nptr, int *nbr);
+bool	ft_atof(const char *nptr, float	*nbr);
 char	*ft_itoa(int n);
+int		ft_power(int base, int exponent);
 int		ft_digitcount(unsigned int n, unsigned int base);
+double	ft_sin(double x);
+double	ft_cos(double x);
+double	ft_sqrt(double nbr);
+bool	ft_naf(const char *nptr);
+bool	ft_nan(const char *nptr);
 
 // PRINTING
 int		ft_putchar(char c);

@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/09/18 14:12:49 by thblack-         ###   ########.fr        #
+#    Updated: 2025/10/06 13:45:25 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@
 ASCII_DIR = ascii
 ASCII_FILES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 			  ft_isprint.c ft_toupper.c ft_tolower.c ft_isspace.c ft_isnum.c \
-			  ft_isstr.c ft_isarr.c
+			  ft_isstr.c ft_isarr.c ft_isfloat.c ft_strisnum.c \
+			  ft_strisfloat.c ft_isleadingzero.c ft_issign.c
 ASCII = $(addprefix $(ASCII_DIR)/, $(ASCII_FILES))
 
 # GNL
@@ -37,7 +38,8 @@ MEMORY = $(addprefix $(MEMORY_DIR)/, $(MEMORY_FILES))
 
 # NUMBERS
 NUMBERS_DIR = numbers
-NUMBERS_FILES = ft_atoi.c ft_itoa.c ft_digitcount.c
+NUMBERS_FILES = ft_atoi.c ft_atof.c ft_itoa.c ft_digitcount.c ft_power.c \
+				ft_sin.c ft_cos.c ft_sqrt.c ft_nan.c ft_naf.c
 NUMBERS = $(addprefix $(NUMBERS_DIR)/, $(NUMBERS_FILES))
 
 # PRINTING
@@ -71,26 +73,22 @@ NAME = libft.a
 
 all: start $(NAME) finish
 
-start:
-	@echo "==== BUILDING LIB_FT ======="
-
-finish:
-
 $(NAME): $(OBJECTS)
+	@echo "building library"
 	@$(AR) $(NAME) $(OBJECTS)
-	@echo "Library compiled"
+	@echo "library compiled"
 
 $(OBJECTS_DIR)/%.o: %.c $(HEADER)
 	@$(MKDIR) $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@echo "Removing libft object files"
+	@echo "removing libft object files"
 	@$(RMFILE) $(OBJECTS)
 	@$(RMDIR) $(OBJECTS_DIR)
 
 fclean: clean
-	@echo "Removing libft static library files"
+	@echo "removing libft static library files"
 	@$(RMFILE) $(NAME)
 
 re: fclean all

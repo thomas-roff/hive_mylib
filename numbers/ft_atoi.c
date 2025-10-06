@@ -5,35 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 19:40:24 by thblack-          #+#    #+#             */
-/*   Updated: 2025/05/06 14:39:17 by thblack-         ###   ########.fr       */
+/*   Created: 2025/10/06 13:19:27 by thblack-          #+#    #+#             */
+/*   Updated: 2025/10/06 13:32:53 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-int	ft_atoi(const char *nptr)
+long long	ft_super_atoi(const char *nptr)
 {
-	int	res;
-	int	pn;
-	int	digit;
+	long long	res;
+	int			sign;
+	int			digit;
 
 	res = 0;
-	pn = 1;
-	while (ft_isspace((int)*nptr) == 1)
+	sign = 1;
+	while (ft_isspace((int)*nptr))
 		nptr++;
-	if (*nptr == '-')
+	if (ft_issign((int)*nptr))
 	{
-		pn = pn * -1;
+		if (*nptr == '-')
+			sign *= -1;
 		nptr++;
 	}
-	else if (*nptr == '+')
-		nptr++;
-	while (ft_isdigit((int)*nptr) == 1)
+	while (ft_isdigit((int)*nptr))
 	{
-		digit = *nptr - '0';
-		res = res * 10 + digit;
+		digit = (long)(*nptr - '0');
+		res = res * 10 + (long)digit;
+		if (res > INT_MAX + (long)1)
+			return (res);
 		nptr++;
 	}
-	return (res * pn);
+	return (res);
+}
+
+bool	ft_atoi(const char *nptr, int *nbr)
+{
+	int	res;
+
+	if (!ft_nan(nptr))
+		return (false);
+	res = ft_super_atoi(nptr);
+	if (res > INT_MAX || res < INT_MIN)
+		return (false);
+	else
+	{
+		*nbr = res;
+		return (true);
+	}
 }
