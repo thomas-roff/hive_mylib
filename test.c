@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "inc/libft.h"
 #include <fcntl.h>
 
 int	main(void)
@@ -20,6 +20,9 @@ int	main(void)
 
 	ft_printf("CUSTOM LIBFT TEST\n");
 	fd = open("text.txt", O_RDONLY);
+	line = get_next_line(fd);
+	ft_printf("Line is: %s", line);
+	free(line);
 	line = get_next_line(fd);
 	ft_printf("Line is: %s", line);
 	free(line);

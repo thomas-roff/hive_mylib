@@ -6,91 +6,125 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/10/06 13:45:25 by thblack-         ###   ########.fr        #
+#    Updated: 2025/10/06 18:04:34 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# LIBRARY NAME
+LIBRARY			= libft
+NAME			= libft.a
+
+# MAIN DIRECTORIES
+SRC_DIR			= src
+OBJ_DIR			= obj
+INC_DIR			= inc
+
+# SOURCE DIRECTORIES
+ASCII_DIR		= ascii
+GNL_DIR			= gnl
+LISTS_DIR		= lists
+MEMORY_DIR		= memory
+NUMBERS_DIR		= numbers
+PRINTING_DIR	= printing
+STRINGS_DIR		= strings
+
 # ASCII
-ASCII_DIR = ascii
-ASCII_FILES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
+ASCII_FILES	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 			  ft_isprint.c ft_toupper.c ft_tolower.c ft_isspace.c ft_isnum.c \
 			  ft_isstr.c ft_isarr.c ft_isfloat.c ft_strisnum.c \
 			  ft_strisfloat.c ft_isleadingzero.c ft_issign.c
-ASCII = $(addprefix $(ASCII_DIR)/, $(ASCII_FILES))
+ASCII		= $(addprefix $(ASCII_DIR)/, $(ASCII_FILES))
 
 # GNL
-GNL_DIR = gnl
-GNL_FILES = get_next_line.c
-GNL = $(addprefix $(GNL_DIR)/, $(GNL_FILES))
+GNL_FILES	= get_next_line.c
+GNL			= $(addprefix $(GNL_DIR)/, $(GNL_FILES))
 
 # LISTS
-LISTS_DIR = lists
 LISTS_FILES = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 			  ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
 			  ft_lstmap.c
-LISTS = $(addprefix $(LISTS_DIR)/, $(LISTS_FILES))
+LISTS		= $(addprefix $(LISTS_DIR)/, $(LISTS_FILES))
 
 # MEMORY
-MEMORY_DIR = memory
 MEMORY_FILES = ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_memchr.c \
 			   ft_memcmp.c ft_calloc.c
-MEMORY = $(addprefix $(MEMORY_DIR)/, $(MEMORY_FILES))
+MEMORY		= $(addprefix $(MEMORY_DIR)/, $(MEMORY_FILES))
 
 # NUMBERS
-NUMBERS_DIR = numbers
 NUMBERS_FILES = ft_atoi.c ft_atof.c ft_itoa.c ft_digitcount.c ft_power.c \
 				ft_sin.c ft_cos.c ft_sqrt.c ft_nan.c ft_naf.c
-NUMBERS = $(addprefix $(NUMBERS_DIR)/, $(NUMBERS_FILES))
+NUMBERS		= $(addprefix $(NUMBERS_DIR)/, $(NUMBERS_FILES))
 
 # PRINTING
-PRINTING_DIR = printing
 PRINTING_FILES = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putuint.c \
 				 ft_puthex.c ft_putptr.c ft_putendl_fd.c ft_putnbr_fd.c \
 				 ft_printf.c ft_putchar_fd.c ft_putstr_fd.c
-PRINTING = $(addprefix $(PRINTING_DIR)/, $(PRINTING_FILES))
+PRINTING	= $(addprefix $(PRINTING_DIR)/, $(PRINTING_FILES))
 
 # STRINGS
-STRINGS_DIR = strings
 STRINGS_FILES = ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
 				ft_strrchr.c ft_strncmp.c ft_strnstr.c ft_strdup.c \
 				ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_strmapi.c \
-				ft_striteri.c ft_strcmp.c
-STRINGS = $(addprefix $(STRINGS_DIR)/, $(STRINGS_FILES))
+				ft_striteri.c ft_strcmp.c ft_strnchr.c
+STRINGS		= $(addprefix $(STRINGS_DIR)/, $(STRINGS_FILES))
 
-HEADER = libft.h
+# SOURCES AND OBJECTS
+SRC			= $(addprefix $(SRC_DIR)/, $(ASCII) $(GNL) $(LISTS) $(MEMORY) \
+			  $(NUMBERS) $(PRINTING) $(STRINGS))
+OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+OBJ_SUB		= $(sort $(dir $(OBJ)))
 
-SOURCES = $(ASCII) $(GNL) $(LISTS) $(MEMORY) $(NUMBERS) $(PRINTING) $(STRINGS)
-OBJECTS_DIR = .obj
-OBJECTS = $(SOURCES:%.c=$(OBJECTS_DIR)/%.o)
+# LIBRARY HEADER
+HEADER		= $(INC_DIR)/libft.h
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
-MKDIR = mkdir -p
-RMFILE = rm -f
-RMDIR = rm -rf
-NAME = libft.a
+# TOOLS
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+CFAST		= -O3
+CDEBUG		= -g -O0
+AR			= ar rcs
+MKDIR		= mkdir -p
+RMFILE		= rm -f
+RMDIR		= rm -rf
 
-all: start $(NAME) finish
+# <<<<<<< MAIN TARGETS >>>>>>>
 
-$(NAME): $(OBJECTS)
-	@echo "building library"
-	@$(AR) $(NAME) $(OBJECTS)
-	@echo "library compiled"
+all: $(NAME)
 
-$(OBJECTS_DIR)/%.o: %.c $(HEADER)
+$(NAME): $(OBJ)
+	@echo "building $(LIBRARY)"
+	@$(AR) $(NAME) $(OBJ)
+	@echo "$(LIBRARY) compiled"
+
+$(OBJ_SUB):
+	@$(MKDIR) $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
 	@$(MKDIR) $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+.SECONDARY	: $(OBJ) 
+
+# <<<<<<< PHONY TARGETS >>>>>>>
+
 clean:
-	@echo "removing libft object files"
-	@$(RMFILE) $(OBJECTS)
-	@$(RMDIR) $(OBJECTS_DIR)
+	@echo "Removing $(LIBRARY) object files"
+	@$(RMDIR) $(OBJ_DIR)
 
 fclean: clean
-	@echo "removing libft static library files"
+	@echo "Removing $(LIBRARY) static library files"
 	@$(RMFILE) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+debug: CFLAGS += $(CDEBUG)
+debug: CGENERAL :=
+debug: CFAST :=
+debug: re
+
+fast: CFLAGS += $(CFAST)
+fast: CGENERAL :=
+fast: CDEBUG :=
+fast: re
+
+.PHONY: all clean fclean re debug fast
