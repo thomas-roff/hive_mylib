@@ -1,0 +1,1 @@
+rm arena_tester vector_tester gnl_tester

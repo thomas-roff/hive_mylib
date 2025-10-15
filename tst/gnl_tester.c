@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/libft.h"
+#include "../inc/libft.h"
 #include <fcntl.h>
 
 int	main(void)

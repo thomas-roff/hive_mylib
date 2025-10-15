@@ -27,6 +27,8 @@ MEMORY_DIR		= memory
 NUMBERS_DIR		= numbers
 PRINTING_DIR	= printing
 STRINGS_DIR		= strings
+VECTORS_DIR		= vectors
+ARENA_DIR		= arena
 
 # ASCII
 ASCII_FILES	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
@@ -68,9 +70,18 @@ STRINGS_FILES = ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
 				ft_striteri.c ft_strcmp.c ft_strnchr.c
 STRINGS		= $(addprefix $(STRINGS_DIR)/, $(STRINGS_FILES))
 
+# VECTORS
+VECTORS_FILES = vectors_basic_utils.c vectors_push_pop_get.c vectors_swap.c \
+				vectors_middle_and_end.c vectors_func_args.c
+VECTORS		= $(addprefix $(VECTORS_DIR)/, $(VECTORS_FILES))
+
+# ARENA
+ARENA_FILES = arena_basic_utils.c arena_printing.c
+ARENA		= $(addprefix $(ARENA_DIR)/, $(ARENA_FILES))
+
 # SOURCES AND OBJECTS
 SRC			= $(addprefix $(SRC_DIR)/, $(ASCII) $(GNL) $(LISTS) $(MEMORY) \
-			  $(NUMBERS) $(PRINTING) $(STRINGS))
+			  $(NUMBERS) $(PRINTING) $(STRINGS) $(VECTORS) $(ARENA))
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_SUB		= $(sort $(dir $(OBJ)))
 
