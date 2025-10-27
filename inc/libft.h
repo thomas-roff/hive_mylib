@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/27 14:27:39 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:57:03 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,11 +192,11 @@ int		vec_reduce(void *acc, t_vec *src, void (*f)(void *, void *));
 int		vec_sort(t_vec *src, int (*f)(void *, void *));
 
 // ARENA FUNCTIONS
-t_arena	*ft_arena_init(size_t capacity);
-void	*ft_arena_alloc(t_arena *arena, size_t size);
-void	*ft_arena_reset(t_arena *arena);
-void	ft_arena_free(t_arena *arena);
-void	ft_arena_list_free(t_arena *arena);
+int		ft_arena_init(t_arena **arena, size_t capacity);
+int		ft_arena_alloc(t_arena *arena, void *ptr, size_t size);
+int		ft_arena_reset(t_arena *arena);
+int		ft_arena_free(t_arena **arena);
+int		ft_arena_list_free(t_arena **arena);
 void	ft_print_arena(const t_arena *arena);
 void	ft_print_arena_list(const t_arena *arena);
 
