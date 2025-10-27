@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   vector_tester.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 10:21:07 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/15 16:49:30 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:14:49 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(int argc, char **argv)
 	int		expect6[] = {4, 5, 6, 1, 2, 3};
 	int		expect7[] = {2, 3, 4, 5, 6};
 	int		expect8[] = {2, 2, 3, 4, 7};
+	int		expect9[] = {1, 4, 5, 6, 2, 3};
 	int		insert[] = {42, 666, 7};
 	int		result = 0;
 
@@ -156,6 +157,14 @@ int	main(int argc, char **argv)
 	vec_free(&t1);
 	vec_free(&t2);
 	ft_printf("test_vec_prepend successful!\n");
+	// VEC_INPEND_TEST
+	assert(vec_from(&t1, base1, 3, sizeof(int)) > 0);
+	assert(vec_from(&t2, base2, 3, sizeof(int)) > 0);
+	assert(vec_inpend(&t1, &t2, 1) > 0);
+	assert(ft_memcmp(t1.data, expect9, sizeof(expect9)) == 0);
+	vec_free(&t1);
+	vec_free(&t2);
+	ft_printf("test_vec_inpend successful!\n");
 	// VEC_ITER_TEST
 	assert(vec_from(&t1, base, 5, sizeof(int)) > 0);
 	vec_iter(&t1, iter_tester);
