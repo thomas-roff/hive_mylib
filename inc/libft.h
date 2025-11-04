@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 15:28:24 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:20:12 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 
 // VECTORS
+int		vec_alloc(t_vec **dst, t_arena *arena);
 int		vec_new(t_vec *dst, size_t init_len, size_t elem_size);
 void	vec_free(t_vec **src);
 void	vec_data_free(t_vec *src);
@@ -183,10 +184,12 @@ int		vec_reset(t_vec *src);
 int		vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
 int		vec_copy(t_vec *dst, t_vec *src);
 void	vec_printf(const t_vec *src, char printf_flag);
+void	vec_putvars(const t_vec *src);
 int		vec_resize(t_vec *src, size_t target_len);
 int		vec_push(t_vec *dst, const void *src);
 int		vec_pop(void *dst, t_vec *src);
 void	*vec_get(t_vec *src, size_t index);
+int		vec_check_and_grow(t_vec *dst, size_t extra);
 int		vec_insert(t_vec *dst, void *src, size_t index);
 int		vec_remove(t_vec *src, size_t index);
 int		vec_append(t_vec *dst, t_vec *src);
@@ -197,7 +200,10 @@ int		vec_map(t_vec *dst, t_vec *src, void (*f)(void *));
 int		vec_filter(t_vec *dst, t_vec *src, bool (*f)(void *));
 int		vec_reduce(void *acc, t_vec *src, void (*f)(void *, void *));
 int		vec_sort(t_vec *src, int (*f)(void *, void *));
-int		ft_issize_toverflow(size_t a, size_t b, size_t *dst);
+void	vec_init(t_vec *dst, size_t init_len, size_t elem_size, t_arena *arena);
+void	vec_set(t_vec *dst, uint8_t *data, size_t len, size_t capacity);
+int		vec_safe_size(size_t a, size_t b, size_t *dst);
+int		vec_exit(t_vec *dst);
 
 // ARENA FUNCTIONS
 int		ft_arena_init(t_arena **arena, size_t capacity);
