@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/27 16:57:03 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:28:24 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@
 
 // CODES FOR ERROR TRACKING
 // SUCCESSFUL EXECUTION
+# define SUCCESS 1
+// UNSUCCEFUL EXECUTION
+# define FAIL 0
+// SUCCESSFUL EXECUTION
 # define OK 1
 // UNSUCCEFUL EXECUTION
 # define KO 0
@@ -52,14 +56,6 @@ typedef struct s_float
 	float	dec;
 }	t_float;
 
-typedef struct s_vec
-{
-	uint8_t	*data;
-	size_t	elem_size;
-	size_t	alloc_size;
-	size_t	len;
-}	t_vec;
-
 typedef struct s_arena
 {
 	size_t			capacity;
@@ -67,6 +63,15 @@ typedef struct s_arena
 	uint8_t			*data;
 	struct s_arena	*next;
 }	t_arena;
+
+typedef struct s_vec
+{
+	uint8_t	*data;
+	size_t	elem_size;
+	size_t	capacity;
+	size_t	len;
+	t_arena	*arena;
+}	t_vec;
 
 // ASCII
 // Checks if input int 'c' is alphabetic character in ascii
@@ -172,12 +177,14 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 
 // VECTORS
 int		vec_new(t_vec *dst, size_t init_len, size_t elem_size);
-void	vec_free(t_vec *src);
+void	vec_free(t_vec **src);
+void	vec_data_free(t_vec *src);
+int		vec_reset(t_vec *src);
 int		vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
 int		vec_copy(t_vec *dst, t_vec *src);
-void	vec_print(const t_vec *src);
+void	vec_printf(const t_vec *src, char printf_flag);
 int		vec_resize(t_vec *src, size_t target_len);
-int		vec_push(t_vec *dst, void *src);
+int		vec_push(t_vec *dst, const void *src);
 int		vec_pop(void *dst, t_vec *src);
 void	*vec_get(t_vec *src, size_t index);
 int		vec_insert(t_vec *dst, void *src, size_t index);
@@ -190,10 +197,11 @@ int		vec_map(t_vec *dst, t_vec *src, void (*f)(void *));
 int		vec_filter(t_vec *dst, t_vec *src, bool (*f)(void *));
 int		vec_reduce(void *acc, t_vec *src, void (*f)(void *, void *));
 int		vec_sort(t_vec *src, int (*f)(void *, void *));
+int		ft_issize_toverflow(size_t a, size_t b, size_t *dst);
 
 // ARENA FUNCTIONS
 int		ft_arena_init(t_arena **arena, size_t capacity);
-int		ft_arena_alloc(t_arena *arena, void *ptr, size_t size);
+int		ft_arena_alloc(t_arena *arena, void **ptr, size_t size);
 int		ft_arena_reset(t_arena *arena);
 int		ft_arena_free(t_arena **arena);
 int		ft_arena_list_free(t_arena **arena);

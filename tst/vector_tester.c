@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 10:21:07 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/27 15:14:49 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:11:01 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int	main(int argc, char **argv)
 	int		expect9[] = {1, 4, 5, 6, 2, 3};
 	int		insert[] = {42, 666, 7};
 	int		result = 0;
+	char	*str1 = "Hello, world!";
+	char	*str2 = "Bubbles taste like soap!";
+	char	*str3 = "Bubbles taste like soap!Hello, world!";
 
 	(void)argc;
 	(void)argv;
@@ -70,7 +73,7 @@ int	main(int argc, char **argv)
 	assert(vec_new(&t1, 10, 1) > 0);
 	vec_free(&t1);
 	assert(t1.len == 0);
-	assert(t1.alloc_size == 0);
+	assert(t1.capacity == 0);
 	assert(t1.elem_size == 0);
 	assert(t1.data == NULL);
 	ft_printf("test_vec_free successful!\n");
@@ -199,6 +202,19 @@ int	main(int argc, char **argv)
 	assert(ft_memcmp(t1.data, expect8, sizeof(expect8)) == 0);
 	vec_free(&t1);
 	ft_printf("test_vec_sort successful!\n");
-	vec_print(&t1);
+	// VEC_STRING_PRINT_TEST
+	assert(vec_from(&t1, str1, ft_strlen(str1), sizeof(char)) > 0);
+	vec_printf(&t1, 's');
+	assert(ft_memcmp(t1.data, str1, ft_strlen(str1)) == 0);
+	vec_free(&t1);
+	ft_printf("test_vec_print successful!\n");
+	// VEC_STRING_PREPEND_TEST
+	assert(vec_from(&t1, str1, ft_strlen(str1), sizeof(char)) > 0);
+	assert(vec_from(&t2, str2, ft_strlen(str2), sizeof(char)) > 0);
+	assert(vec_prepend(&t1, &t2) > 0);
+	assert(ft_memcmp(t1.data, str3, ft_strlen(str3)) == 0);
+	vec_free(&t1);
+	vec_free(&t2);
+	ft_printf("test_vec_print successful!\n");
 	return (0);
 }
