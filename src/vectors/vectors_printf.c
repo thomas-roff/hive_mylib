@@ -6,17 +6,16 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:05:28 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 19:19:50 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 10:29:53 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
 
-static void	vec_printf_s(const t_vec *src)
+void	vec_printf_s(const t_vec *src)
 {
 	write(1, "Data: ", 6);
 	write(1, (char *)src->data, src->len);
-	write(1, "\n", 1);
 }
 
 static void	vec_printf_array(const t_vec *src, char c)
@@ -50,9 +49,9 @@ static void	vec_printf_array(const t_vec *src, char c)
 
 void	vec_putvars(const t_vec *src)
 {
-	ft_printf("VECTOR DATA\ncapacity: %u elem_size: %u len: %u\n",
-		(uint32_t)src->capacity, (uint32_t)src->elem_size,
-		(uint32_t)src->len);
+	ft_printf("VECTOR\nlen: %u elem_size: %u cap: %u\ndata: %p arena: %p\n",
+		(uint32_t)src->len, (uint32_t)src->elem_size, (uint32_t)src->capacity,
+		src->data, src->arena);
 }
 
 void	vec_printf(const t_vec *src, char c)
@@ -66,5 +65,8 @@ void	vec_printf(const t_vec *src, char c)
 		|| c == 'X')
 		vec_printf_array(src, c);
 	if (c == 's')
+	{
 		vec_printf_s(src);
+		write(1, "\n", 1);
+	}
 }

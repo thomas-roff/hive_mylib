@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   gnl_tester.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 14:01:44 by thblack-          #+#    #+#             */
-/*   Updated: 2025/07/25 14:11:35 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/19 22:35:56 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	main(void)
 
 	ft_printf("CUSTOM LIBFT TEST\n");
 	fd = open("text.txt", O_RDONLY);
-	line = get_next_line(fd);
+	line = gnl(fd);
 	ft_printf("Line is: %s", line);
 	free(line);
-	line = get_next_line(fd);
+	line = gnl(fd);
 	ft_printf("Line is: %s", line);
 	free(line);
 	close(fd);
