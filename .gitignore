@@ -1,1 +1,3 @@
 .obj/
+*.json
+.DS_Store
