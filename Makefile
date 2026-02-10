@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2026/01/07 14:37:27 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/19 22:35:11 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ INC_DIR			= inc
 ASCII_DIR		= ascii
 GNL_DIR			= gnl
 LISTS_DIR		= lists
-ERR_DIR			= error
 MEMORY_DIR		= memory
 NUMBERS_DIR		= numbers
 PRINTING_DIR	= printing
 STRINGS_DIR		= strings
 VECTORS_DIR		= vectors
 ARENA_DIR		= arena
+MSG_DIR			= messages
 
 # ASCII
 ASCII_FILES	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
@@ -42,15 +42,15 @@ ASCII		= $(addprefix $(ASCII_DIR)/, $(ASCII_FILES))
 GNL_FILES	= gnl.c supergnl.c
 GNL			= $(addprefix $(GNL_DIR)/, $(GNL_FILES))
 
-# ERROR
-ERR_FILES	= errno_set.c
-ERR			= $(addprefix $(ERR_DIR)/, $(ERR_FILES))
-
 # LISTS
 LISTS_FILES = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 			  ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
 			  ft_lstmap.c
 LISTS		= $(addprefix $(LISTS_DIR)/, $(LISTS_FILES))
+
+# Messages
+MSG_FILES	= error.c
+MSG			= $(addprefix $(MSG_DIR)/, $(MSG_FILES))
 
 # MEMORY
 MEMORY_FILES = ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_memchr.c \
@@ -87,7 +87,7 @@ ARENA		= $(addprefix $(ARENA_DIR)/, $(ARENA_FILES))
 
 # SOURCES AND OBJECTS
 SRC			= $(addprefix $(SRC_DIR)/, $(ASCII) $(GNL) $(LISTS) $(MEMORY) \
-			  $(NUMBERS) $(PRINTING) $(STRINGS) $(VECTORS) $(ARENA) $(ERR))
+			  $(MSG) $(NUMBERS) $(PRINTING) $(STRINGS) $(VECTORS) $(ARENA))
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_SUB		= $(sort $(dir $(OBJ)))
 

@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:29:36 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 14:24:35 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:21:32 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@ int	ft_arena_init(t_arena **arena, size_t capacity)
 	t_arena	*new;
 
 	if (!arena || capacity == 0)
-		return (ft_errno_set(EINVAL, KO));
+		return (ft_liberror(EINVAL, "ft_arena_init"));
 	if (capacity > (SIZE_MAX / sizeof(uint8_t)))
-		return (ft_errno_set(ERANGE, KO));
+		return (ft_liberror(ERANGE, "ft_arena_init"));
 	new = malloc(sizeof(t_arena));
 	if (!new)
-		return (ft_errno_set(ENOMEM, KO));
+		return (ft_liberror(ENOMEM, "ft_arena_init"));
 	new->data = malloc(sizeof(uint8_t) * capacity);
 	if (!new->data)
 	{
 		free(new);
-		return (ft_errno_set(ENOMEM, KO));
+		return (ft_liberror(ENOMEM, "ft_arena_init"));
 	}
 	new->capacity = capacity;
 	new->size = 0;
 	new->next = NULL;
 	*arena = new;
-	return (OK);
+	return (SUCCESS);
 }
 
 int	ft_arena_alloc(t_arena *arena, void **ptr, size_t size)
@@ -43,7 +43,7 @@ int	ft_arena_alloc(t_arena *arena, void **ptr, size_t size)
 	size_t	capacity;
 
 	if (!arena || !arena->data || size == 0)
-		return (ft_errno_set(EINVAL, KO));
+		return (ft_liberror(EINVAL, "ft_arena_alloc"));
 	current = arena;
 	capacity = size;
 	next = NULL;
@@ -55,21 +55,21 @@ int	ft_arena_alloc(t_arena *arena, void **ptr, size_t size)
 		if (capacity < ARENA_BUF)
 			capacity = ARENA_BUF;
 		if (ft_arena_init(&next, capacity) < 0)
-			return (KO);
+			return (ft_liberror(EINHERIT, "ft_arena_alloc"));
 		current->next = next;
 		current = current->next;
 	}
 	*ptr = (void *)&current->data[current->size];
 	current->size += size;
-	return (OK);
+	return (SUCCESS);
 }
 
 int	ft_arena_reset(t_arena *arena)
 {
 	if (!arena)
-		return (ft_errno_set(EINVAL, KO));
+		return (ft_liberror(EINVAL, "ft_arena_reset"));
 	arena->size = 0;
-	return (OK);
+	return (SUCCESS);
 }
 
 int	ft_arena_free(t_arena **arena)
@@ -77,13 +77,13 @@ int	ft_arena_free(t_arena **arena)
 	t_arena	*temp;
 
 	if (!arena || !*arena)
-		return (ft_errno_set(EINVAL, KO));
+		return (ft_liberror(EINVAL, "ft_arena_free"));
 	temp = *arena;
 	free(temp->data);
 	temp->data = NULL;
 	free(temp);
 	*arena = NULL;
-	return (OK);
+	return (SUCCESS);
 }
 
 int	ft_arena_list_free(t_arena **arena)
@@ -92,17 +92,17 @@ int	ft_arena_list_free(t_arena **arena)
 	t_arena	*next;
 
 	if (!arena)
-		return (ft_errno_set(EINVAL, KO));
+		return (ft_liberror(EINVAL, "ft_arena_list_free"));
 	if (!*arena)
-		return (OK);
+		return (SUCCESS);
 	current = *arena;
 	while (current)
 	{
 		next = current->next;
 		if (ft_arena_free(&current) < 0)
-			return (KO);
+			return (ft_liberror(EINHERIT, "ft_arena_list_free"));
 		current = next;
 	}
 	*arena = NULL;
-	return (OK);
+	return (SUCCESS);
 }

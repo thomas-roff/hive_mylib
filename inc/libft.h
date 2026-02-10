@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 14:09:58 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/19 22:34:50 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <float.h>
 # include <errno.h>
+# include <string.h>
 
 // BUF_SIZE (USED IN GNL AND MINITALK)
 # define BUF_SIZE 1024
@@ -35,15 +36,18 @@
 // ARENA_BUF (DEFAULT INITIAL SIZE OF AN ARENA WHEN CREATED)
 # define ARENA_BUF 1024
 
-// CODES FOR ERROR TRACKING
-// SUCCESSFUL EXECUTION
-# define SUCCESS 1
-// UNSUCCEFUL EXECUTION
-# define FAIL 0
-// SUCCESSFUL EXECUTION
-# define OK 1
-// UNSUCCEFUL EXECUTION
-# define KO 0
+// -- Return Values
+
+// Run checks
+# define FAIL 1
+# define SUCCESS 0
+// Is checks
+# define TRUE 1
+# define FALSE 0
+// Error
+# define ERROR -1
+// Inherit errno from sub-function
+# define EINHERIT 0
 
 typedef struct s_list
 {
@@ -134,12 +138,13 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 
-// ERROR
-int		ft_errno_set(int err, int exit_status);
+// Messages
+void	ft_perror(void);
+int		ft_liberror(int code, const char *message);
 
 // NUMBERS
-bool	ft_atoi(const char *nptr, int *nbr);
-bool	ft_atof(const char *nptr, float	*nbr);
+int		ft_atoi(const char *nptr, int *nbr);
+int		ft_atof(const char *nptr, float	*nbr);
 char	*ft_itoa(int n);
 int		ft_power(int base, int exponent);
 int		ft_digitcount(unsigned int n, unsigned int base);
@@ -189,7 +194,6 @@ int		vec_reset(t_vec *src);
 int		vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
 int		vec_copy(t_vec *dst, t_vec *src);
 void	vec_printf(const t_vec *src, char printf_flag);
-void	vec_printf_s(const t_vec *src);
 void	vec_putvars(const t_vec *src);
 int		vec_resize(t_vec *src, size_t target_len);
 int		vec_push(t_vec *dst, const void *src);
@@ -198,7 +202,6 @@ void	*vec_get(t_vec *src, size_t index);
 int		vec_check_and_grow(t_vec *dst, size_t extra);
 int		vec_insert(t_vec *dst, void *src, size_t index);
 int		vec_remove(t_vec *src, size_t index);
-int		vec_trim(t_vec *src, size_t index, size_t len);
 int		vec_append(t_vec *dst, t_vec *src);
 int		vec_prepend(t_vec *dst, t_vec *src);
 int		vec_inpend(t_vec *dst, t_vec *src, size_t after);
@@ -210,8 +213,7 @@ int		vec_sort(t_vec *src, int (*f)(void *, void *));
 void	vec_init(t_vec *dst, size_t init_len, size_t elem_size, t_arena *arena);
 void	vec_set(t_vec *dst, uint8_t *data, size_t len, size_t capacity);
 int		vec_safe_size(size_t a, size_t b, size_t *dst);
-int		ft_memcpy_safe(void *dst, const void *src, size_t len, size_t size);
-int		vec_exit(t_vec *dst);
+int		vec_exit(int code, const char *message, t_vec *dst);
 
 // ARENA FUNCTIONS
 int		ft_arena_init(t_arena **arena, size_t capacity);

@@ -64,18 +64,18 @@ int	main(int argc, char **argv)
 	t1 = NULL;
 	t2 = NULL;
 	arena = NULL;
-	assert(ft_arena_init(&arena, ARENA_BUF));
+	assert(ft_arena_init(&arena, ARENA_BUF) == SUCCESS);
 	ft_print_arena(arena);
 	// VEC_ALLOC TEST
 	vec_alloc(&t1, NULL);
 	vec_alloc(&t2, arena);
 	ft_printf("test_vec_alloc successful!\n");
 	// VEC_NEW_TEST
-	assert(vec_new(t1, 0, 0) == FAIL);
+	assert(vec_new(t1, 0, 0) == ERROR);
 	assert(vec_new(t1, 0, 1) == SUCCESS);
 	assert(t1->data == NULL);
 	vec_reset(t1);
-	assert(vec_new(t1, 1, 0) == FAIL);
+	assert(vec_new(t1, 1, 0) == ERROR);
 	assert(vec_new(t1, 10, 1) == SUCCESS);
 	assert(t1->data != NULL);
 	vec_reset(t1);
@@ -90,28 +90,28 @@ int	main(int argc, char **argv)
 	ft_printf("test_vec_reset successful!\n");
 	// VEC_FROM_TEST
 	assert(vec_from(t1, base, 5, sizeof(int)) == SUCCESS);
-	assert(ft_memcmp(t1->data, base, sizeof(base)) == FAIL);
+	assert(ft_memcmp(t1->data, base, sizeof(base)) == FALSE);
 	vec_reset(t1);
 	ft_printf("test_vec_from successful!\n");
 	// VEC_COPY_TEST
 	assert(vec_from(t1, base, 5, sizeof(int)) == SUCCESS);
 	assert(vec_new(t2, 5, sizeof(int)) == SUCCESS);
 	assert(vec_copy(t2, t1) == SUCCESS);
-	assert(ft_memcmp(t2->data, base, sizeof(base)) == FAIL);
+	assert(ft_memcmp(t2->data, base, sizeof(base)) == FALSE);
 	vec_reset(t1);
 	vec_reset(t2);
 	ft_printf("test_vec_copy successful!\n");
 	// VEC_RESIZE_TEST
 	assert(vec_from(t1, base, 5, sizeof(int)) == SUCCESS);
 	assert(vec_resize(t1, 100) == SUCCESS);
-	assert(ft_memcmp(t1->data, base, sizeof(base)) == FAIL);
+	assert(ft_memcmp(t1->data, base, sizeof(base)) == FALSE);
 	vec_reset(t1);
 	ft_printf("test_vec_resize successful!\n");
 	// VEC_PUSH_TEST
 	assert(vec_new(t1, 1, sizeof(int)) == SUCCESS);
 	vec_push(t1, &base[1]);
 	vec_push(t1, &base[3]);
-	assert(ft_memcmp(t1->data, expect1, sizeof(expect1)) == FAIL);
+	assert(ft_memcmp(t1->data, expect1, sizeof(expect1)) == FALSE);
 	vec_reset(t1);
 	ft_printf("test_vec_push successful!\n");
 	// VEC_POP_TEST
@@ -122,7 +122,7 @@ int	main(int argc, char **argv)
 	assert(expect2 == 4);
 	vec_pop(&expect2, t1);
 	assert(expect2 == 2);
-	assert(t1->len == FAIL);
+	assert(t1->len == 0);
 	vec_reset(t1);
 	ft_printf("test_vec_pop successful!\n");
 	// VEC_GET_TEST
@@ -152,14 +152,14 @@ int	main(int argc, char **argv)
 	vec_remove(t1, 1);
 	vec_remove(t1, 3);
 	vec_remove(t1, 5);
-	assert(ft_memcmp(t1->data, base, sizeof(base)) == FAIL);
+	assert(ft_memcmp(t1->data, base, sizeof(base)) == FALSE);
 	vec_reset(t1);
 	ft_printf("test_vec_remove successful!\n");
 	// VEC_APPEND_TEST
 	assert(vec_from(t1, base1, 3, sizeof(int)) == SUCCESS);
 	assert(vec_from(t2, base2, 3, sizeof(int)) == SUCCESS);
 	assert(vec_append(t1, t2) == SUCCESS);
-	assert(ft_memcmp(t1->data, expect5, sizeof(expect5)) == FAIL);
+	assert(ft_memcmp(t1->data, expect5, sizeof(expect5)) == FALSE);
 	vec_reset(t1);
 	vec_reset(t2);
 	ft_printf("test_vec_append successful!\n");
@@ -167,7 +167,7 @@ int	main(int argc, char **argv)
 	assert(vec_from(t1, base1, 3, sizeof(int)) == SUCCESS);
 	assert(vec_from(t2, base2, 3, sizeof(int)) == SUCCESS);
 	assert(vec_prepend(t1, t2) == SUCCESS);
-	assert(ft_memcmp(t1->data, expect6, sizeof(expect6)) == FAIL);
+	assert(ft_memcmp(t1->data, expect6, sizeof(expect6)) == FALSE);
 	vec_reset(t1);
 	vec_reset(t2);
 	ft_printf("test_vec_prepend successful!\n");
@@ -175,21 +175,21 @@ int	main(int argc, char **argv)
 	assert(vec_from(t1, base1, 3, sizeof(int)) == SUCCESS);
 	assert(vec_from(t2, base2, 3, sizeof(int)) == SUCCESS);
 	assert(vec_inpend(t1, t2, 1) == SUCCESS);
-	assert(ft_memcmp(t1->data, expect9, sizeof(expect9)) == FAIL);
+	assert(ft_memcmp(t1->data, expect9, sizeof(expect9)) == FALSE);
 	vec_reset(t1);
 	vec_reset(t2);
 	ft_printf("test_vec_inpend successful!\n");
 	// VEC_ITER_TEST
 	assert(vec_from(t1, base, 5, sizeof(int)) == SUCCESS);
 	vec_iter(t1, iter_tester);
-	assert(ft_memcmp(t1->data, expect7, sizeof(expect7)) == FAIL);
+	assert(ft_memcmp(t1->data, expect7, sizeof(expect7)) == FALSE);
 	vec_reset(t1);
 	ft_printf("test_vec_iter successful!\n");
 	// VEC_MAP_TEST
 	assert(vec_from(t1, base, 5, sizeof(int)) == SUCCESS);
 	assert(vec_new(t2, 5, sizeof(int)) == SUCCESS);
 	vec_map(t2, t1, iter_tester);
-	assert(ft_memcmp(t2->data, expect7, sizeof(expect7)) == FAIL);
+	assert(ft_memcmp(t2->data, expect7, sizeof(expect7)) == FALSE);
 	vec_reset(t1);
 	vec_reset(t2);
 	ft_printf("test_vec_map successful!\n");
@@ -197,7 +197,7 @@ int	main(int argc, char **argv)
 	assert(vec_from(t1, base, 5, sizeof(int)) == SUCCESS);
 	assert(vec_new(t2, 5, sizeof(int)) == SUCCESS);
 	vec_filter(t2, t1, filter_tester);
-	assert(ft_memcmp(t2->data, expect1, sizeof(expect1)) == FAIL);
+	assert(ft_memcmp(t2->data, expect1, sizeof(expect1)) == FALSE);
 	vec_reset(t1);
 	vec_reset(t2);
 	ft_printf("test_vec_filter successful!\n");
@@ -210,20 +210,20 @@ int	main(int argc, char **argv)
 	// VEC_SORT_TEST
 	assert(vec_from(t1, base3, 5, sizeof(int)) == SUCCESS);
 	vec_sort(t1, cmp);
-	assert(ft_memcmp(t1->data, expect8, sizeof(expect8)) == FAIL);
+	assert(ft_memcmp(t1->data, expect8, sizeof(expect8)) == FALSE);
 	vec_reset(t1);
 	ft_printf("test_vec_sort successful!\n");
 	// VEC_STRING_PRINT_TEST
 	assert(vec_from(t1, str1, ft_strlen(str1), sizeof(char)) == SUCCESS);
 	vec_printf(t1, 's');
-	assert(ft_memcmp(t1->data, str1, ft_strlen(str1)) == FAIL);
+	assert(ft_memcmp(t1->data, str1, ft_strlen(str1)) == FALSE);
 	vec_reset(t1);
 	ft_printf("test_vec_print successful!\n");
 	// VEC_STRING_PREPEND_TEST
 	assert(vec_from(t1, str1, ft_strlen(str1), sizeof(char)) == SUCCESS);
 	assert(vec_from(t2, str2, ft_strlen(str2), sizeof(char)) == SUCCESS);
 	assert(vec_prepend(t1, t2) == SUCCESS);
-	assert(ft_memcmp(t1->data, str3, ft_strlen(str3)) == FAIL);
+	assert(ft_memcmp(t1->data, str3, ft_strlen(str3)) == FALSE);
 	vec_reset(t1);
 	vec_reset(t2);
 	ft_printf("test_vec_print successful!\n");
